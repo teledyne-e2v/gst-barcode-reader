@@ -13,19 +13,27 @@ First you must make sure that your device's clock is correctly setup.
 Otherwise the compilation will fail.
 
 ## Cmake 3.23.2
-This specific version of cmake is required for Zxing installation
+This specific version of cmake is required for Zxing installation. Download it with:
 
 	wget https://cmake.org/files/v3.23/cmake-3.23.2-linux-aarch64.tar.gz
+
+Extract the archive:
+
 	tar -xvzf cmake-3.23.2-linux-aarch64.tar.gz
+
+Install the software:
+
 	sudo mv cmake-3.23.2-linux-aarch64/bin/* /usr/bin
 	sudo mv cmake-3.23.2-linux-aarch64/share/* /usr/share
-
 
 ## Zxing
 You need to install Zxing to use the barcode reader plugin.
 You can follow the following command to install Zxing :
 
 	git clone https://github.com/nu-book/zxing-cpp.git
+
+Checkout this specific commit:
+
 	cd zxing-cpp
 	git checkout 74101f2b
 
