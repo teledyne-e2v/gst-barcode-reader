@@ -6,6 +6,8 @@
 #include <ZXing/ZXVersion.h>
 #include <vector>
 #include <iterator>
+#include <stdexcept>
+#include <cstdlib>
 
 #include "barcodeChainList.h"
 
@@ -503,6 +505,10 @@ void drawLine(unsigned char *frame, Point x1, Point x2, int width, int height)
  */
 int readZxing(unsigned char *frame, int width, int height, int nbMaxBarcode, int compress, BarcodePos **pos)
 {
+	if(height<0 || width<0 || frame == NULL)
+{
+	return 0;
+}
     unsigned char *tmp_frame = frame;
 
     // If compression is activated
@@ -521,6 +527,8 @@ int readZxing(unsigned char *frame, int width, int height, int nbMaxBarcode, int
 
     ImageView imgView(tmp_frame, width, height, ImageFormat::Lum);
 
+
+
     DecodeHints hints;
     Results results;
 
@@ -537,10 +545,21 @@ int readZxing(unsigned char *frame, int width, int height, int nbMaxBarcode, int
 
     // Set types format it should decode
     hints.setFormats(value);
-
-    gettimeofday(&start, NULL);
-    results = ReadBarcodes(imgView, hints);
+	
+try
+    {
+        gettimeofday(&start, NULL);
+        results = ReadBarcodes(imgView, hints);
     gettimeofday(&end, NULL);
+    }
+    catch ( ... )
+    {
+        // Handle exception 
+        std::cout << "Error during barcode decoding: " << std::endl;
+        return 1;
+    }
+
+
 
     elapsed +=
         ((end.tv_sec * 1000000 + end.tv_usec) -
