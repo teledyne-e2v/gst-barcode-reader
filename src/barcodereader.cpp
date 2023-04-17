@@ -583,8 +583,7 @@ try
 
             std::string sType = sFormat + "\n" + sData + "\n\n";
 
-            char *tmpFormat = &sFormat[0];
-            char *tmpData = &sData[0];
+
 
             // Insertion of barcode information in a vector if it's a new one
             if (std::find(barcodeTypeVect.begin(), barcodeTypeVect.end(), sType) == std::end(barcodeTypeVect))
