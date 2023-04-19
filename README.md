@@ -36,7 +36,7 @@ Note : gcc autotools and make are installed by default in most of linux distribu
 
 # Compilation
 
-## Ubuntu
+## Ubuntu (Jetson)
 
 ### Cmake 3.23.2
 This specific version of cmake is required for Zxing installation. Download it with:
