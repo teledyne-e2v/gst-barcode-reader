@@ -164,19 +164,6 @@ make install
 
 
 
-## Gstreamer plugin
-
-In the BarcodeReaderPlugin folder do:
-```
-bash autogen.sh
-```
-Now you cake compile with:
-```
-make
-```
-
-
-
 # Installation test
 
 
