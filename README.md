@@ -10,22 +10,35 @@ This plugin implements a barcode detection and decoding using Zxing (Zebra cross
 # Dependencies
 
 The following libraries are required for this plugin.
+- v4l-utils
+- libv4l-dev
 - libgstreamer1.0-dev
 - libgstreamer-plugins-base1.0-dev
 
-Install them with: 
+#### Debian based system (Jetson): 
 
 ```
-sudo apt install libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
+sudo apt install v4l-utils libv4l-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 ```
+##### Note : if you are using a Yocto distribution, look at the github to find a .bbappend file which provides all packages to your distribution 
+
+### For compilation 
+Note : gcc autotools and make are installed by default in most of linux distributions (not on all yocto images).
+
+- gcc
+- (autotools + make) or (meson + ninja) 
+
+### For usage 
+
+- gstreamer-1.0
+
 
 
 # Compilation
 
-First you must make sure that your device's clock is correctly setup.
-Otherwise the compilation will fail.
+## Ubuntu
 
-## Cmake 3.23.2
+### Cmake 3.23.2
 This specific version of cmake is required for Zxing installation. Download it with:
 ```
 wget https://cmake.org/files/v3.23/cmake-3.23.2-linux-aarch64.tar.gz
@@ -39,7 +52,7 @@ Install the software:
 sudo mv cmake-3.23.2-linux-aarch64/bin/* /usr/bin
 sudo mv cmake-3.23.2-linux-aarch64/share/* /usr/share
 ```
-## Zxing
+### Zxing
 You need to install Zxing to use the barcode reader plugin.
 You can follow the following command to install Zxing :
 ```
@@ -61,6 +74,96 @@ And install. Only run the install in sudo :
 sudo make -j4 install
 cd ../..
 ```
+
+### Plugin
+
+First you must make sure that your device's clock is correctly setup.
+Otherwise the compilation will fail.
+
+#### Using Meson 
+
+In the **gst-barcodereader** folder do:
+
+```
+meson build
+```
+```
+ninja -C build
+```
+```
+sudo ninja -C build install
+```
+
+#### Using Autotools (deprecated)
+
+In the **gst-barcodereader** folder do:
+```
+bash autogen.sh
+```
+```
+make
+```
+
+```
+sudo make install
+```
+
+## Yocto (IMX)
+
+### Cmake 3.23.2
+
+Make sure to have cmake on your Yocto, you can check the teledyne-core.bbappend from github file to add it.
+
+### Zxing
+You need to install Zxing to use the barcode reader plugin.
+You can follow the following command to install Zxing :
+```
+git clone https://github.com/nu-book/zxing-cpp.git
+```
+Checkout this specific commit:
+```
+cd zxing-cpp
+git checkout 74101f2b
+```
+Configure the make options, in source build always works in external projects :
+```
+mkdir build
+cd build
+cmake -DBUILD_WRITERS=OFF -DBUILD_READERS=ON -DBUILD_EXAMPLES=OFF -DBUILD_BLACKBOX_TESTS=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_PYTHON_MODULE=OFF ..
+```
+And install. Only run the install in sudo :
+```
+sudo make -j4 install
+cd ../..
+```
+### Plugin
+
+First you must make sure that your device's clock is correctly setup.
+Otherwise the compilation will fail.
+
+#### Using Meson 
+
+In the **gst-barcodereader** folder do:
+
+```
+meson build
+```
+```
+ninja -C build install
+```
+
+#### Using Autotools (deprecated)
+
+In the **gst-barcodereader** folder do:
+```
+bash autogen.sh
+```
+```
+make install
+```
+
+
+
 ## Gstreamer plugin
 
 In the BarcodeReaderPlugin folder do:
@@ -71,10 +174,12 @@ Now you cake compile with:
 ```
 make
 ```
-# Install
-```
-sudo make install
-```
+
+
+
+# Installation test
+
+
 To test if the plugin has been correctly install, do:
 ```
 export GST_PLUGIN_PATH=/usr/local/lib/gstreamer-1.0/
