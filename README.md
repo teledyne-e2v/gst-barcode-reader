@@ -14,23 +14,36 @@ The following libraries are required for this plugin.
 - libv4l-dev
 - libgstreamer1.0-dev
 - libgstreamer-plugins-base1.0-dev
+- gcc
+- meson (>= 0.49)
+- ninja
+- gstreamer-1.0
 
-#### Debian based system (Jetson): 
+
+### Debian based system (Jetson): 
 
 ```
 sudo apt install v4l-utils libv4l-dev libgstreamer1.0-dev libgstreamer-plugins-base1.0-dev
 ```
-##### Note : if you are using a Yocto distribution, look at the github to find a .bbappend file which provides all packages to your distribution 
+Meson >= 0.49 is required, you can download the good version on the official debian repositories :
+https://packages.debian.org/buster/all/meson/download.
 
-### For compilation 
-Note : gcc autotools and make are installed by default in most of linux distributions (not on all yocto images).
+Once you have download your package, you can install it with the command : 
+```
+sudo apt install ./meson_0.49.2-1_all.deb
+```
 
-- gcc
-- (autotools + make) or (meson + ninja) 
+This should install the ninja package, if not use the command : 
+```
+sudo apt install ninja
+```
 
-### For usage 
+### Yocto based system (IMX): 
 
-- gstreamer-1.0
+Teledyne provide a bbappend file which provides all packages needed :
+https://github.com/teledyne-e2v/Yocto-files
+
+##### Note : You can also compile them on your installed distribution but it will take a long time to compile (Do it only if you miss one or two packages)
 
 
 
