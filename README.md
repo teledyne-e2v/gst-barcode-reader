@@ -38,20 +38,8 @@ This should install the ninja package, if not use the command :
 sudo apt install ninja
 ```
 
-### Yocto based system (IMX): 
 
-Teledyne provide a bbappend file which provides all packages needed :
-https://github.com/teledyne-e2v/Yocto-files
-
-##### Note : You can also compile them on your installed distribution but it will take a long time to compile (Do it only if you miss one or two packages)
-
-
-
-# Compilation
-
-## Ubuntu (Jetson)
-
-### Cmake 3.23.2
+#### Cmake 3.23.2
 This specific version of cmake is required for Zxing installation. Download it with:
 ```
 wget https://cmake.org/files/v3.23/cmake-3.23.2-linux-aarch64.tar.gz
@@ -65,7 +53,7 @@ Install the software:
 sudo mv cmake-3.23.2-linux-aarch64/bin/* /usr/bin
 sudo mv cmake-3.23.2-linux-aarch64/share/* /usr/share
 ```
-### Zxing
+#### Zxing
 You need to install Zxing to use the barcode reader plugin.
 You can follow the following command to install Zxing :
 ```
@@ -88,12 +76,53 @@ sudo make -j4 install
 cd ../..
 ```
 
+
+
+### Yocto based system (IMX): 
+
+Teledyne provide a bbappend file which provides all packages needed :
+https://github.com/teledyne-e2v/Yocto-files
+
+##### Note : You can also compile them on your installed distribution but it will take a long time to compile (Do it only if you miss one or two packages)
+
+
+#### Cmake 3.23.2
+
+Make sure to have cmake on your Yocto, you can check the teledyne-core.bbappend from github file to add it.
+
+#### Zxing
+You need to install Zxing to use the barcode reader plugin.
+You can follow the following command to install Zxing :
+```
+git clone https://github.com/nu-book/zxing-cpp.git
+```
+Checkout this specific commit:
+```
+cd zxing-cpp
+git checkout 74101f2b
+```
+Configure the make options, in source build always works in external projects :
+```
+mkdir build
+cd build
+cmake -DBUILD_WRITERS=OFF -DBUILD_READERS=ON -DBUILD_EXAMPLES=OFF -DBUILD_BLACKBOX_TESTS=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_PYTHON_MODULE=OFF ..
+```
+And install. Only run the install in sudo :
+```
+sudo make -j4 install
+cd ../..
+```
+
+
+# Compilation
+
+## Ubuntu (Jetson)
+
+
 ### Plugin
 
 First you must make sure that your device's clock is correctly setup.
 Otherwise the compilation will fail.
-
-#### Using Meson 
 
 In the **gst-barcodereader** folder do:
 
@@ -107,54 +136,13 @@ ninja -C build
 sudo ninja -C build install
 ```
 
-#### Using Autotools (deprecated)
-
-In the **gst-barcodereader** folder do:
-```
-bash autogen.sh
-```
-```
-make
-```
-
-```
-sudo make install
-```
 
 ## Yocto (IMX)
 
-### Cmake 3.23.2
-
-Make sure to have cmake on your Yocto, you can check the teledyne-core.bbappend from github file to add it.
-
-### Zxing
-You need to install Zxing to use the barcode reader plugin.
-You can follow the following command to install Zxing :
-```
-git clone https://github.com/nu-book/zxing-cpp.git
-```
-Checkout this specific commit:
-```
-cd zxing-cpp
-git checkout 74101f2b
-```
-Configure the make options, in source build always works in external projects :
-```
-mkdir build
-cd build
-cmake -DBUILD_WRITERS=OFF -DBUILD_READERS=ON -DBUILD_EXAMPLES=OFF -DBUILD_BLACKBOX_TESTS=OFF -DBUILD_UNIT_TESTS=OFF -DBUILD_PYTHON_MODULE=OFF ..
-```
-And install. Only run the install in sudo :
-```
-sudo make -j4 install
-cd ../..
-```
 ### Plugin
 
 First you must make sure that your device's clock is correctly setup.
 Otherwise the compilation will fail.
-
-#### Using Meson 
 
 In the **gst-barcodereader** folder do:
 
