@@ -109,7 +109,7 @@ cmake -DBUILD_WRITERS=OFF -DBUILD_READERS=ON -DBUILD_EXAMPLES=OFF -DBUILD_BLACKB
 ```
 And install. Only run the install in sudo :
 ```
-sudo make -j4 install
+make -j4 install
 cd ../..
 ```
 
