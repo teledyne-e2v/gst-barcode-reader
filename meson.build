@@ -1,10 +1,10 @@
-project('gst-plugins-good', 'cpp',
-  version : '1.14.2',
-  meson_version : '>= 0.49',
+project('gst-barcode-reader', 'cpp',
+  version : 1.0.1,
+  meson_version : '>= 0.43',
   default_options : [ 'warning_level=1',
                       'buildtype=debugoptimized' ])
 
-gst_version = meson.project_version()
+gst_version = '1.14.2'
 version_arr = gst_version.split('.')
 gst_version_major = version_arr[0].to_int()
 gst_version_minor = version_arr[1].to_int()
@@ -105,37 +105,6 @@ endforeach
 
 check_functions = [
   ['HAVE_CLOCK_GETTIME', 'clock_gettime', '#include<time.h>'],
-# check token HAVE_CPU_ALPHA
-# check token HAVE_CPU_ARM
-# check token HAVE_CPU_CRIS
-# check token HAVE_CPU_CRISV32
-# check token HAVE_CPU_HPPA
-# check token HAVE_CPU_I386
-# check token HAVE_CPU_IA64
-# check token HAVE_CPU_M68K
-# check token HAVE_CPU_MIPS
-# check token HAVE_CPU_PPC
-# check token HAVE_CPU_PPC64
-# check token HAVE_CPU_S390
-# check token HAVE_CPU_SPARC
-# check token HAVE_CPU_X86_64
-  ['HAVE_DCGETTEXT', 'dcgettext', '#include<libintl.h>'],
-# check token HAVE_DIRECTSOUND
-# check token HAVE_EXPERIMENTAL
-# check token HAVE_EXTERNAL
-# check token HAVE_FPCLASS
-# check token HAVE_GCC_ASM
-  ['HAVE_GETPAGESIZE', 'getpagesize', '#include<unistd.h>'],
-# check token HAVE_GETTEXT
-# check token HAVE_GST_V4L2
-# check token HAVE_LIBV4L2
-  ['HAVE_MMAP', 'mmap', '#include<sys/mman.h>'],
-  ['HAVE_MMAP64', 'mmap64', '#include<sys/mman.h>'],
-# check token HAVE_OSX_AUDIO
-# check token HAVE_OSX_VIDEO
-# check token HAVE_RDTSC
-# check token HAVE_WAVEFORM
-  ['HAVE_GMTIME_R', 'gmtime_r', '#include<time.h>'],
 ]
 
 libm = cc.find_library('m', required : false)
@@ -237,6 +206,14 @@ gstbarcodereader = library('gstbarcodereader',
   install : true,
   install_dir : plugins_install_dir,
 )
-
+conf_data = configuration_data()
+conf_data.set('package_version', meson.project_version())
+conf_data.set('package_name', meson.project_name())
+conf_data.set('package', meson.project_name())
+conf_data.set('package_string', meson.project_name() + meson.project_version())
+conf_data.set('tar_name', meson.project_name())
+configure_file(input : 'config.h.in',
+               output : 'config.h',
+               configuration : conf_data)
 
 
