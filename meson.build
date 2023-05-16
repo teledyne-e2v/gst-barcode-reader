@@ -1,5 +1,5 @@
 project('gst-barcode-reader', 'cpp',
-  version : 1.0.1,
+  version : 1.3.1,
   meson_version : '>= 0.43',
   default_options : [ 'warning_level=1',
                       'buildtype=debugoptimized' ])
