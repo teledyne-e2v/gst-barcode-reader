@@ -57,9 +57,6 @@ else
   noseh_link_args = []
 endif
 
-if cc.has_link_argument('-Wl,-Bsymbolic-functions')
-  add_project_link_arguments('-Wl,-Bsymbolic-functions', language : 'c')
-endif
 
 # Symbol visibility
 if cc.has_argument('-fvisibility=hidden')
