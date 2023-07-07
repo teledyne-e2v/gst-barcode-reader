@@ -32,6 +32,7 @@ This specific version of cmake is required for Zxing installation. You can insta
 
 ##### Fast way 
 This way works but isn't clean
+
 Download it with:
 ```
 wget https://cmake.org/files/v3.23/cmake-3.23.2-linux-aarch64.tar.gz
