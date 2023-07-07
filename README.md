@@ -28,7 +28,11 @@ sudo apt install v4l-utils libv4l-dev libgstreamer1.0-dev libgstreamer-plugins-b
 
 
 #### Cmake 3.23.2
-This specific version of cmake is required for Zxing installation. Download it with:
+This specific version of cmake is required for Zxing installation. You can installed it by 2 way 
+
+##### Fast way 
+This way works but isn't clean
+Download it with:
 ```
 wget https://cmake.org/files/v3.23/cmake-3.23.2-linux-aarch64.tar.gz
 ```
@@ -39,8 +43,25 @@ tar -xvzf cmake-3.23.2-linux-aarch64.tar.gz
 Install the software:
 ```
 sudo mv cmake-3.23.2-linux-aarch64/bin/* /usr/bin
-sudo mv cmake-3.23.2-linux-aarch64/share/* /usr/share
+sudo cp -r cmake-3.23.2-linux-aarch64/share/* /usr/share
 ```
+##### Slow way (compilation from sources)
+This is a better way to install cmake but this is really slow (>25 minutes)
+
+Clone the repository:
+```
+git clone --depth 1 --branch v3.23.2 https://github.com/Kitware/CMake.git
+cd CMake/
+```
+
+Compile and install:
+```
+./bootstrap --parallel=4 -- -DCMAKE_USE_OPENSSL=OFF
+make -j4
+sudo make install
+cd ..
+```
+
 #### Zxing
 You need to install Zxing to use the barcode reader plugin.
 You can follow the following command to install Zxing :
